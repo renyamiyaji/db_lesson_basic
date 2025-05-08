@@ -1,0 +1,101 @@
+-- db_lesson.sql
+
+-- Q1: Create departments table
+CREATE TABLE departments (
+  department_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (department_id)
+);
+
+-- Q2: Add department_id column to people table
+ALTER TABLE people
+  ADD COLUMN department_id INT UNSIGNED NULL AFTER email;
+
+-- Q3: Insert records
+-- 3.1: Departments
+INSERT INTO departments (name) VALUES
+  ('営業'),
+  ('開発'),
+  ('経理'),
+  ('人事'),
+  ('情報システム');
+
+-- 3.2: People (10 records)
+INSERT INTO people (name, email, department_id, age, gender) VALUES
+  ('佐藤 太郎', 'sato@example.com', 1, 28, 1),
+  ('鈴木 花子', 'suzuki@example.com', 2, 24, 2),
+  ('高橋 次郎', 'takahashi@example.com', 3, 35, 1),
+  ('田中 美咲', 'tanaka@example.com', 4, 22, 2),
+  ('伊藤 健', 'ito@example.com', 5, 30, 1),
+  ('渡辺 愛', 'watanabe@example.com', 1, 27, 2),
+  ('山本 翔', 'yamamoto@example.com', 2, 31, 1),
+  ('中村 真由', 'nakamura@example.com', 2, 26, 2),
+  ('小林 大輔', 'kobayashi@example.com', 2, 29, 1),
+  ('加藤 理恵', 'kato@example.com', 3, 33, 2);
+
+-- 3.3: Reports (10 records)
+INSERT INTO reports (person_id, content) VALUES
+  (1, '今日は顧客訪問を行い、提案資料の作成を進めました。'),
+  (2, 'システムのデバッグを実施し、バグを3件修正しました。'),
+  (3, '経理処理の締め作業を行い、請求書を発行しました。'),
+  (4, '面接候補者の連絡と日程調整を行いました。'),
+  (5, 'ネットワーク機器の設定変更と動作確認を実施しました。'),
+  (6, '営業会議に参加し、次期施策を議論しました。'),
+  (7, '新機能の設計レビューを行い、フィードバックをまとめました。'),
+  (8, '単体テストを実施し、テスト結果をレポートにまとめました。'),
+  (9, 'チームミーティングでプロジェクト進捗を報告しました。'),
+  (10, '月次レポートの作成と提出を行いました。');
+
+-- Q4: Update NULL department_id
+UPDATE people
+SET department_id = (
+  SELECT department_id FROM departments WHERE name = '営業' LIMIT 1
+)
+WHERE department_id IS NULL;
+
+-- Q5: Male names and ages in descending order of age
+SELECT name, age
+FROM people
+WHERE gender = 1
+ORDER BY age DESC;
+
+-- Q6: SQL文の日本語説明
+/* 
+このSQL文は、peopleテーブルというテーブルから、nameカラム、emailカラム、ageカラムを取得し、
+department_idが1であるレコードに絞り込んでいます。
+取得したレコードは、created_atカラムの値を基準に並び替えています。
+*/
+
+-- Q7: 20代の女性と40代の男性の名前一覧
+SELECT name
+FROM people
+WHERE (gender = 2 AND age BETWEEN 20 AND 29)
+   OR (gender = 1 AND age BETWEEN 40 AND 49);
+
+-- Q8: 営業部所属者を年齢昇順で取得
+SELECT p.name, p.age
+FROM people p
+JOIN departments d ON p.department_id = d.department_id
+WHERE d.name = '営業'
+ORDER BY p.age ASC;
+
+-- Q9: 開発部所属の女性の平均年齢
+SELECT AVG(p.age) AS average_age
+FROM people p
+JOIN departments d ON p.department_id = d.department_id
+WHERE d.name = '開発'
+  AND p.gender = 2;
+
+-- Q10: 名前と部署名と日報内容を取得（提出者のみ）
+SELECT p.name, d.name AS department_name, r.content
+FROM people p
+JOIN departments d ON p.department_id = d.department_id
+JOIN reports r ON p.person_id = r.person_id;
+
+-- Q11: 日報未提出者の名前一覧
+SELECT p.name
+FROM people p
+LEFT JOIN reports r ON p.person_id = r.person_id
+WHERE r.report_id IS NULL;
