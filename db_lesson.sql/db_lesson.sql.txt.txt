@@ -23,7 +23,7 @@ INSERT INTO departments (name) VALUES
   ('人事'),
   ('情報システム');
 
--- Q3.2: People (10 records)
+-- 3.2: People (10 records)
 INSERT INTO people (name, email, department_id, age, gender) VALUES
   ('佐藤 太郎', 'sato@example.com', 1, 28, 1),
   ('鈴木 花子', 'suzuki@example.com', 2, 24, 2),
@@ -36,7 +36,7 @@ INSERT INTO people (name, email, department_id, age, gender) VALUES
   ('小林 大輔', 'kobayashi@example.com', 2, 29, 1),
   ('加藤 理恵', 'kato@example.com', 3, 33, 2);
 
--- Q3.3: Reports (10 records)
+-- 3.3: Reports (10 records)
 INSERT INTO reports (person_id, content) VALUES
   (1, '今日は顧客訪問を行い、提案資料の作成を進めました。'),
   (2, 'システムのデバッグを実施し、バグを3件修正しました。'),
@@ -64,7 +64,7 @@ ORDER BY age DESC;
 
 -- Q6: SQL文の日本語説明
 /* 
-このSQL文は、peopleテーブルというテーブルから、nameカラム、emailカラム、ageカラムを取得し、
+このSQL文は、peopleテーブルというテーブルから、nameカラム、emailカラム、ageカラムを取得.
 department_idが1であるレコードに絞り込んでいます。
 取得したレコードは、created_atカラムの値を基準に並び替えています。
 */
