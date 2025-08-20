@@ -1,4 +1,4 @@
--- db_lesson.sql
+- db_lesson.sql
 
 -- Q1: Create departments table
 CREATE TABLE departments (
@@ -34,7 +34,7 @@ INSERT INTO people (name, email, department_id, age, gender) VALUES
   ('山本 翔', 'yamamoto@example.com', 2, 31, 1),
   ('中村 真由', 'nakamura@example.com', 2, 26, 2),
   ('小林 大輔', 'kobayashi@example.com', 2, 29, 1),
-  ('加藤 理恵', 'kato@example.com', 3, 33, 2);
+  ('加藤 理恵', 'kato@example.com', 1, 33, 2);
 
 -- 3.3: Reports (10 records)
 INSERT INTO reports (person_id, content) VALUES
