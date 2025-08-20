@@ -1,0 +1,570 @@
+renya@ren:~$ mysql --version
+mysql  Ver 9.3.0 for Linux on x86_64 (Homebrew)
+renya@ren:~$ mysql --version
+mysql  Ver 9.3.0 for Linux on x86_64 (Homebrew)
+renya@ren:~$ mysql -u root -p
+Enter password:
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+renya@ren:~$
+renya@ren:~$ mysql> SHOW DATABASES;
+ERROR 1045 (28000): Access denied for user 'renya'@'localhost' (using password: NO)
+renya@ren:~$ mysql -u root -p
+Enter password:
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+renya@ren:~$ mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 9.3.0 Homebrew
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.045 sec)
+
+mysql> CREATE DATABASE db_lesson;
+Query OK, 1 row affected (0.023 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| db_lesson          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.003 sec)
+
+mysql> USE db_lesson;
+Database changed
+mysql> SHOW TABLES;
+)Empty set (0.003 sec)
+
+mysql> SHOW TABLES;
+)Empty set (0.003 sec)
+
+mysql> Empty set (0.00 sec)
+    ->
+    ->  CREATE TABLE people;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Empty set (0.00 sec)
+
+ CREATE TABLE people' at line 1
+mysql> CREATE TABLE `people`(
+    ->     -> `id` INT,
+    ->     -> `name` VARCHAR(255),
+    ->     -> `email` VARCHAR(255),
+    ->     -> `password` CHAR(8)
+    ->     -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> `id` INT,
+    -> `name` VARCHAR(255),
+    -> `email` VARCHAR(255),
+    -> `pa' at line 2
+mysql> CREATE TABLE people (
+    ->   id INT PRIMARY KEY,
+    -> me VARCHAR(255),  name VARCHAR(255),
+    ->   email VARCHAR(255),
+    ->   password CHAR(8)
+    -> );
+Query OK, 0 rows affected (0.077 sec)
+
+mysql> DESCRIBE people;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| id       | int          | NO   | PRI | NULL    |       |
+| name     | varchar(255) | YES  |     | NULL    |       |
+| email    | varchar(255) | YES  |     | NULL    |       |
+| password | char(8)      | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+4 rows in set (0.008 sec)
+
+mysql> DROP TABLE people
+    ->
+    -> ;
+Query OK, 0 rows affected (0.062 sec)
+
+mysql> CREATE TABLE people (
+REMENT PRIMARY K    -> EY,
+    name VAR    person_id INT AUTO_INCREMENT PRIMARY KEY,
+CHAR(255) UNIQUE    ->     name VARCHAR(20) NOT NULL,
+    ->     email VARCHAR(255) UNIQUE,
+    ->     age INT,
+P DEFAULT CURREN    ->     gender TINYINT COMMENT '1が男、2が女',
+    ->     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ->     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ->     );
+Query OK, 0 rows affected (0.112 sec)
+
+mysql> DESCRIBE people;
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field      | Type         | Null | Key | Default           | Extra                                         |
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| person_id  | int          | NO   | PRI | NULL              | auto_increment                                |
+| name       | varchar(20)  | NO   |     | NULL              |                                               |
+| email      | varchar(255) | YES  | UNI | NULL              |                                               |
+| age        | int          | YES  |     | NULL              |                                               |
+| gender     | tinyint      | YES  |     | NULL              |                                               |
+| created_at | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.008 sec)
+
+mysql> ALTER TABLE people MODIFY age TINYINT UNSIGNED;
+Query OK, 0 rows affected (0.205 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desk
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desk' at line 1
+mysql> desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql>  DESC people;
++------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| Field      | Type             | Null | Key | Default           | Extra                                         |
++------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| person_id  | int              | NO   | PRI | NULL              | auto_increment                                |
+| name       | varchar(20)      | NO   |     | NULL              |                                               |
+| email      | varchar(255)     | YES  | UNI | NULL              |                                               |
+| age        | tinyint unsigned | YES  |     | NULL              |                                               |
+| gender     | tinyint          | YES  |     | NULL              |                                               |
+| created_at | timestamp        | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at | timestamp        | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++------------+------------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.003 sec)
+
+mysql>  ALTER TABLE people MODIFY person_id INT UNSIGNED;
+Query OK, 0 rows affected (0.202 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  ALTER TABLE people MODIFY person_id INT UNSIGNED AUTO_INCREMENT;
+Query OK, 0 rows affected (0.184 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO people (name, email, age, gender) VALUES ('鈴木たかし', 'suzuki@gizumo.jp', 20, 1);
+Query OK, 1 row affected (0.017 sec)
+
+mysql>  INSERT INTO people (name, email, age, gender)
+    ->     -> VALUES
+anaka@gizumo.jp'    ->     -> ('田中ゆうこ', 'tanaka@gizumo.jp', 25, 2),
+ ('福田だいすけ', 'fuk    ->     -> ('福田だいすけ', 'fukuda@gizumo.jp', 42, 1),
+    ->     -> ('豊島はなこ', 'toyoshima@gizumo.jp', 34, 2),
+    ->     -> ('早坂てつお', 'hayasaka@gizumo.co.jp', 61, 1),
+ ('不思議沢みちこ', NUL    ->     -> ('不思議沢みちこ', NULL, NULL, NULL);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> VALUES
+    -> ('田中ゆうこ', 'tanaka@gizumo.jp', 25, 2),
+    -> ('福田' at line 2
+mysql> INSERT INTO people (name, email, age, gender)
+    -> values
+    -> ('田中ゆうこ', 'tanaka@gizumo.jp', 25, 2),
+    -> ('福田だいすけ', 'fukuda@gizumo.jp', 42, 1),
+    ->  ('豊島はなこ', 'toyoshima@gizumo.jp', 34, 2),
+    ->  ('早坂てつお', 'hayasaka@gizumo.co.jp', 61, 1),
+    ->  ('不思議沢みちこ', NULL, NULL, NULL);
+Query OK, 5 rows affected (0.018 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> UPDATE people SET email = 'hayasaka@gizumo.jp' WHERE person_id = 5;
+Query OK, 1 row affected (0.016 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>  SELECT * FROM people WHERE person_id = 5;
++-----------+-----------------+--------------------+------+--------+---------------------+---------------------+
+| person_id | name            | email              | age  | gender | created_at          | updated_at          |
++-----------+-----------------+--------------------+------+--------+---------------------+---------------------+
+|         5 | 早坂てつお      | hayasaka@gizumo.jp |   61 |      1 | 2025-05-09 06:02:40 | 2025-05-09 06:03:23 |
++-----------+-----------------+--------------------+------+--------+---------------------+---------------------+
+1 row in set (0.001 sec)
+
+mysql>  DELETE FROM people WHERE person_id = 5;
+Query OK, 1 row affected (0.012 sec)
+
+mysql>  SELECT * FROM people WHERE person_id = 5;
+Empty set (0.001 sec)
+
+mysql>  SELECT * FROM people WHERE person_id = 5;
+Empty set (0.001 sec)
+
+mysql> mysql -u root -p db_lesson < ~/db_lesson_basic/db_lesson.sql
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql -u root -p db_lesson < ~/db_lesson_basic/db_lesson.sql' at line 1
+mysql> \q
+Bye
+renya@ren:~$ mysql> SOURCE /home/renya/db_lesson_basic/db_lesson.sql;
+ERROR 1045 (28000): Access denied for user 'renya'@'localhost' (using password: NO)
+renya@ren:~$ sudo mysql db_lesson < ~/db_lesson_basic/db_lesson.sql
+[sudo] password for renya:
+Sorry, try again.
+[sudo] password for renya:
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+renya@ren:~$ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
+renya@ren:~$ source ~/.bashrc
+renya@ren:~$ which -a mysql
+/home/linuxbrew/.linuxbrew/bin/mysql
+/usr/bin/mysql
+/bin/mysql
+renya@ren:~$ brew services start mysql
+Service `mysql` already started, use `brew services restart mysql` to restart.
+renya@ren:~$ ls -l $(brew --prefix)/var/mysql/
+total 104544
+-rw-r----- 1 renya renya  6291456 May  9 06:04 '#ib_16384_0.dblwr'
+-rw-r----- 1 renya renya 14680064 May  9 05:17 '#ib_16384_1.dblwr'
+drwxr-x--- 2 renya renya     4096 May  9 06:02 '#innodb_redo'
+drwxr-x--- 2 renya renya     4096 May  9 05:44 '#innodb_temp'
+-rw-r----- 1 renya renya       56 May  9 05:17  auto.cnf
+-rw-r----- 1 renya renya      158 May  9 05:44  binlog.000001
+-rw-r----- 1 renya renya     3701 May  9 06:03  binlog.000002
+-rw-r----- 1 renya renya       32 May  9 05:44  binlog.index
+-rw------- 1 renya renya     1709 May  9 05:17  ca-key.pem
+-rw-r--r-- 1 renya renya     1108 May  9 05:17  ca.pem
+-rw-r--r-- 1 renya renya     1108 May  9 05:17  client-cert.pem
+-rw------- 1 renya renya     1705 May  9 05:17  client-key.pem
+drwxr-x--- 2 renya renya     4096 May  9 06:00  db_lesson
+-rw-r----- 1 renya renya     5806 May  9 05:17  ib_buffer_pool
+-rw-r----- 1 renya renya 12582912 May  9 06:03  ibdata1
+-rw-r----- 1 renya renya 12582912 May  9 05:44  ibtmp1
+drwxr-x--- 2 renya renya     4096 May  9 05:17  mysql
+-rw-r----- 1 renya renya 27262976 May  9 06:03  mysql.ibd
+-rw-r----- 1 renya renya      131 May  9 05:17  mysql_upgrade_history
+drwxr-x--- 2 renya renya     4096 May  9 05:17  performance_schema
+-rw------- 1 renya renya     1705 May  9 05:17  private_key.pem
+-rw-r--r-- 1 renya renya      452 May  9 05:17  public_key.pem
+-rw-r----- 1 renya renya     2858 May  9 05:44  ren.err
+-rw-r----- 1 renya renya        4 May  9 05:44  ren.pid
+-rw-r--r-- 1 renya renya     1108 May  9 05:17  server-cert.pem
+-rw------- 1 renya renya     1705 May  9 05:17  server-key.pem
+drwxr-x--- 2 renya renya     4096 May  9 05:17  sys
+-rw-r----- 1 renya renya 16777216 May  9 06:04  undo_001
+-rw-r----- 1 renya renya 16777216 May  9 06:04  undo_002
+renya@ren:~$ mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 9.3.0 Homebrew
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> USE db_lesson;
+a/db_lesson_basic/db_lesson.sql;Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SOURCE /home/renya/db_lesson_basic/db_lesson.sql;
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 0 rows affected (0.129 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 0 rows affected (0.060 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 5 rows affected (0.020 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 10 rows affected (0.013 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.000 sec)
+
+ERROR 1146 (42S02): Table 'db_lesson.reports' doesn't exist
+Query OK, 0 rows affected (0.000 sec)
+
+Query OK, 5 rows affected (0.021 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+Query OK, 0 rows affected (0.000 sec)
+
++--------------------+------+
+| name               | age  |
++--------------------+------+
+| 福田だいすけ       |   42 |
+| 高橋 次郎          |   35 |
+| 山本 翔            |   31 |
+| 伊藤 健            |   30 |
+| 小林 大輔          |   29 |
+| 佐藤 太郎          |   28 |
+| 鈴木たかし         |   20 |
++--------------------+------+
+7 rows in set (0.000 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
++--------------------+
+| name               |
++--------------------+
+| 田中ゆうこ         |
+| 福田だいすけ       |
+| 鈴木 花子          |
+| 田中 美咲          |
+| 渡辺 愛            |
+| 中村 真由          |
++--------------------+
+6 rows in set (0.001 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
++-----------------------+------+
+| name                  | age  |
++-----------------------+------+
+| 不思議沢みちこ        | NULL |
+| 鈴木たかし            |   20 |
+| 田中ゆうこ            |   25 |
+| 渡辺 愛               |   27 |
+| 佐藤 太郎             |   28 |
+| 豊島はなこ            |   34 |
+| 福田だいすけ          |   42 |
++-----------------------+------+
+7 rows in set (0.000 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
++-------------+
+| average_age |
++-------------+
+|     25.0000 |
++-------------+
+1 row in set (0.008 sec)
+
+Query OK, 0 rows affected (0.000 sec)
+
+ERROR 1146 (42S02): Table 'db_lesson.reports' doesn't exist
+Query OK, 0 rows affected (0.000 sec)
+
+ERROR 1146 (42S02): Table 'db_lesson.reports' doesn't exist
+mysql> USE db_lesson;
+ople;
+SELECT
+  (SELECT COUNT(*) FROM departmentDatabase changed
+mysql> DESCRIBE departments;
+,
+  (SELECT COUNT(*) FROM people)     AS people_count,
+  (SELECT COUNT(*) FROM reports)    AS reports_count;
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field         | Type         | Null | Key | Default           | Extra                                         |
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| department_id | int unsigned | NO   | PRI | NULL              | auto_increment                                |
+| name          | varchar(20)  | NO   |     | NULL              |                                               |
+| created_at    | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at    | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.009 sec)
+
+mysql> DESCRIBE people;
++---------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| Field         | Type             | Null | Key | Default           | Extra                                         |
++---------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| person_id     | int unsigned     | NO   | PRI | NULL              | auto_increment                                |
+| name          | varchar(20)      | NO   |     | NULL              |                                               |
+| email         | varchar(255)     | YES  | UNI | NULL              |                                               |
+| department_id | int unsigned     | YES  |     | NULL              |                                               |
+| age           | tinyint unsigned | YES  |     | NULL              |                                               |
+| gender        | tinyint          | YES  |     | NULL              |                                               |
+| created_at    | timestamp        | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at    | timestamp        | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++---------------+------------------+------+-----+-------------------+-----------------------------------------------+
+8 rows in set (0.002 sec)
+
+mysql> SELECT
+    ->   (SELECT COUNT(*) FROM departments) AS dept_count,
+    ->   (SELECT COUNT(*) FROM people)     AS people_count,
+    ->   (SELECT COUNT(*) FROM reports)    AS reports_count;
+ERROR 1146 (42S02): Table 'db_lesson.reports' doesn't exist
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_db_lesson |
++---------------------+
+| departments         |
+| people              |
++---------------------+
+2 rows in set (0.005 sec)
+
+mysql> CREATE TABLE reports (
+    ->   report_id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    ->   person_id   INT UNSIGNED NOT NULL,
+    ->   content     TEXT NOT NULL,
+    ->   created_at  TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP,
+    ->   updated_at  TIMESTAMP     NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    ->   PRIMARY KEY (report_id),
+    ->   KEY fk_person (person_id),
+    ->   CONSTRAINT fk_reports_person FOREIGN KEY (person_id)
+    ->     REFERENCES people(person_id)
+    -> );
+Query OK, 0 rows affected (0.098 sec)
+
+mysql>
+mysql> INSERT INTO reports (person_id, content) VALUES
+    ->   (1, '今日は顧客訪問を行い、提案資料の作成を進めました。'),
+    ->   (2, 'システムのデバッグを実施し、バグを3件修正しました。'),
+    ->   (3, '経理処理の締め作業を行い、請求書を発行しました。'),
+ 'ネットワーク機器の設定変更と    ->   (4, '面接候補者の連絡と日程調整を行いました。'),
+    ->   (5, 'ネットワーク機器の設定変更と動作確認を実施しました。'),
+体テストを実施し、テスト結果をレ    ->   (6, '営業会議に参加し、次期施策を議論しました。'),
+    ->   (7, '新機能の設計レビューを行い、フィードバックをまとめました。'),
+    ->   (8, '単体テストを実施し、テスト結果をレポートにまとめました。'),
+    ->   (9, 'チームミーティングでプロジェクト進捗を報告しました。'),
+    ->   (10, '月次レポートの作成と提出を行いました。');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`db_lesson`.`reports`, CONSTRAINT `fk_reports_person` FOREIGN KEY (`person_id`) REFERENCES `people` (`person_id`))
+mysql>  USE db_lesson;
+Database changed
+mysql> SELECT person_id, name FROM people ORDER BY person_id;
++-----------+-----------------------+
+| person_id | name                  |
++-----------+-----------------------+
+|         1 | 鈴木たかし            |
+|         2 | 田中ゆうこ            |
+|         3 | 福田だいすけ          |
+|         4 | 豊島はなこ            |
+|         6 | 不思議沢みちこ        |
+|         7 | 佐藤 太郎             |
+|         8 | 鈴木 花子             |
+|         9 | 高橋 次郎             |
+|        10 | 田中 美咲             |
+|        11 | 伊藤 健               |
+|        12 | 渡辺 愛               |
+|        13 | 山本 翔               |
+|        14 | 中村 真由             |
+|        15 | 小林 大輔             |
+|        16 | 加藤 理恵             |
++-----------+-----------------------+
+15 rows in set (0.005 sec)
+
+mysql> INSERT INTO reports (person_id, content) VALUES
+    ->   (1, '今日は顧客訪問を行い、提案資料の作成を進めました。'),
+デバッグを実施し、バグを3件修正しました。'),
+  (3, '経理処理の締め作業を行い、請求書を発行しました。'),
+  (4, '面接候補者の連絡と日程調整を行いました。'),
+  (5, 'ネットワーク機器の設定変更と動作確認を実施しました。'),
+  (6, '営業会議に参加し、次期施策を議論しました。'),
+  (7, '新機能の設計レビュ    ->   (2, 'システムのデバッグを実施し、バグを3件修正しました。'),
+    ->   (3, '経理処理の締め作業を行い、請求書を発行しました。'),
+    ->   (4, '面接候補者の連絡と日程調整を行いました。'),
+ポートにまとめました。'),
+     ->   (5, 'ネットワーク機器の設定変更と動作確認を実施しました。'),
+    ->   (6, '営業会議に参加し、次期施策を議論しました。'),
+    ->   (7, '新機能の設計レビューを行い、フィードバックをまとめました。'),
+ートの作成と提出を行いました。'    ->   (8, '単体テストを実施し、テスト結果をレポートにまとめました。'),
+    ->   (9, 'チームミーティングでプロジェクト進捗を報告しました。'),
+    ->   (10, '月次レポートの作成と提出を行いました。');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`db_lesson`.`reports`, CONSTRAINT `fk_reports_person` FOREIGN KEY (`person_id`) REFERENCES `people` (`person_id`))
+mysql> INSERT INTO people (name, email, age, gender)
+LUES ('新規 太郎', 'new@example.com', 25, 1);
+    -> VALUES ('新規 太郎', 'new@example.com', 25, 1);
+Query OK, 1 row affected (0.013 sec)
+
+mysql> INSERT INTO reports (person_id, content) VALUES
+    ->   (1, '今日は顧客訪問を行い、提案資料の作成を進めました。'),
+    ->   (2, 'システムのデバッグを実施し、バグを3件修正しました。'),
+    ->   (3, '経理処理の締め作業を行い、請求書を発行しました。'),
+    ->   (4, '面接候補者の連絡と日程調整を行いました。'),
+    ->   (5, 'ネットワーク機器の設定変更と動作確認を実施しました。'),
+    ->   (6, '営業会議に参加し、次期施策を議論しました。'),
+    ->   (7, '新機能の設計レビューを行い、フィードバックをまとめました。'),
+    ->   (8, '単体テストを実施し、テスト結果をレポートにまとめました。'),
+    ->   (9, 'チームミーティングでプロジェクト進捗を報告しました。'),
+ートの作成と提出を行いました。'    ->   (10, '月次レポートの作成と提出を行いました。');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`db_lesson`.`reports`, CONSTRAINT `fk_reports_person` FOREIGN KEY (`person_id`) REFERENCES `people` (`person_id`))
+mysql> INSERT INTO reports (person_id, content) VALUES
+。'),
+  (2,  'システ    ->   (1,  '今日は顧客訪問を行い、提案資料の作成を進めました。'),
+    ->   (2,  'システムのデバッグを実施し、バグを3件修正しました。'),
+    ->   (3,  '経理処理の締め作業を行い、請求書を発行しました。'),
+    ->   (4,  '面接候補者の連絡と日程調整を行いました。'),
+ (12, 'ネットワーク機器の設定変更と動作確認を実施しました    ->   (12, 'ネットワーク機器の設定変更と動作確認を実施しました。'),
+    ->   (6,  '営業会議に参加し、次期施策を議論しました。'),
+    ->   (7,  '新機能の設計レビューを行い、フィードバックをまとめました。'),
+    ->   (8,  '単体テストを実施し、テスト結果をレポートにまとめました。'),
+    ->   (9,  'チームミーティングでプロジェクト進捗を報告しました。'),
+    ->   (10, '月次レポートの作成と提出を行いました。');
+Query OK, 10 rows affected (0.026 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> SELECT COUNT(*) AS reports_count FROM reports;
++---------------+
+| reports_count |
++---------------+
+|            10 |
++---------------+
+1 row in set (0.002 sec)
+
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_db_lesson |
++---------------------+
+| departments         |
+| people              |
+| reports             |
++---------------------+
+3 rows in set (0.007 sec)
+
+mysql> DESCRIBE departments;
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field         | Type         | Null | Key | Default           | Extra                                         |
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| department_id | int unsigned | NO   | PRI | NULL              | auto_increment                                |
+| name          | varchar(20)  | NO   |     | NULL              |                                               |
+| created_at    | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at    | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++---------------+--------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.005 sec)
+
+mysql> DESCRIBE people;
++---------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| Field         | Type             | Null | Key | Default           | Extra                                         |
++---------------+------------------+------+-----+-------------------+-----------------------------------------------+
+| person_id     | int unsigned     | NO   | PRI | NULL              | auto_increment                                |
+| name          | varchar(20)      | NO   |     | NULL              |                                               |
+| email         | varchar(255)     | YES  | UNI | NULL              |                                               |
+| department_id | int unsigned     | YES  |     | NULL              |                                               |
+| age           | tinyint unsigned | YES  |     | NULL              |                                               |
+| gender        | tinyint          | YES  |     | NULL              |                                               |
+| created_at    | timestamp        | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at    | timestamp        | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++---------------+------------------+------+-----+-------------------+-----------------------------------------------+
+8 rows in set (0.004 sec)
+
+mysql> DESCRIBE reports;
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| Field      | Type         | Null | Key | Default           | Extra                                         |
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+| report_id  | int unsigned | NO   | PRI | NULL              | auto_increment                                |
+| person_id  | int unsigned | NO   | MUL | NULL              |                                               |
+| content    | text         | NO   |     | NULL              |                                               |
+| created_at | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updated_at | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++------------+--------------+------+-----+-------------------+-----------------------------------------------+
+5 rows in set (0.004 sec)
+
+mysql>
+
